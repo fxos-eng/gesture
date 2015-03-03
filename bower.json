@@ -1,0 +1,22 @@
+{
+  "name": "gesture",
+  "version": "0.0.1",
+  "homepage": "https://github.com/fxos/gesture",
+  "authors": [
+    "FxOS Developers <dev-gaia@lists.mozilla.com>"
+  ],
+  "main": "src/gesture.js",
+  "license": "Apache",
+  "ignore": [
+    "**/.*",
+    "example",
+    "node_modules",
+    "test",
+    "bower.json",
+    "LICENSE",
+    "package.json",
+    "README.md"
+  ],
+  "dependencies": {},
+  "devDependencies": {}
+}
