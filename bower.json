@@ -1,11 +1,11 @@
 {
   "name": "gesture",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "homepage": "https://github.com/fxos/gesture",
   "authors": [
     "FxOS Developers <dev-gaia@lists.mozilla.com>"
   ],
-  "main": "src/gesture.js",
+  "main": "gesture.js",
   "license": "Apache",
   "ignore": [
     "**/.*",
