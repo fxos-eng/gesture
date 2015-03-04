@@ -5,6 +5,15 @@
   else { g[n]=f(); }
 }(this, 'Gesture', function() {
 
+  var Gesture = {
+    DEBUG: true
+  };
+
+  function debug(...args) {
+    if (Gesture.DEBUG) {
+      console.log('[Gesture]', ...args);
+    }
+  }
 
   // Return a promise that will resolve when the specified gesture is
   // detected. Note that the gesture is detected only once. You must call
@@ -34,6 +43,7 @@
 
     // Call this function once to start listening.
     function init() {
+      debug('Initializing');
       // Set our initial state
       state = NOT_STARTED;
 
@@ -48,6 +58,7 @@
     // It registers handlers for touchmove and touchend and sets 
     // the state to STARTED.
     function start() {
+      debug('Start of gesture detected');
       state = STARTED;
       window.addEventListener('touchmove', touchmove, true);
       window.addEventListener('touchend', touchend, true);
@@ -59,6 +70,7 @@
     // the state to NOT_STARTED where it continues listening for new
     // touches.
     function fail(why) {
+      debug('Gesture did not complete:', why);
       state = NOT_STARTED;
       window.removeEventListener('touchmove', touchmove, true);
       window.removeEventListener('touchend', touchend, true);
@@ -69,6 +81,7 @@
     // The data argument contains information about the gesture that
     // is used to resolve the promise.
     function succeed(data) {
+      debug('Gesture completed:', data);
       cleanup();
       promiseResolver(data);
     }
@@ -98,6 +111,7 @@
     // But it doesn't do anything unless this event looks like the
     // start of a gesture.
     function touchstart(e) {
+      debug('touch start', e.touches.length);
       // If a gesture has already started and another finger 
       // goes down, then this is not the gesture we thought it was,
       // so we cancel it and go back to the initial state
@@ -115,6 +129,7 @@
     }
 
     function touchmove(e) {
+      debug('touchmove', e.changedTouches[0].clientX, e.changedTouches[0].clientY);
       var gestureData;
       try {
         gestureData = isGestureEnd(startEvent, e);
@@ -155,10 +170,10 @@
       return Promise.reject('Unsupported gesture: ' + gestureSpec.type);
     }
 
-    // If we do, then create the promise that we will return 
+    // If we do, then create the promise that we will return
     // and start detecting gestures when the promise is ready
 
-    var promise = new Promise(function(resolve, reject) {
+    promise = new Promise(function(resolve, reject) {
       // Store resolve and reject in the outer scope where we can use them
       promiseResolver = resolve;
       promiseRejector = reject;
@@ -234,7 +249,7 @@
         // 2) a finger is lifted before success
         // 3) there are the wrong number of touches (that should not happen).
         if (spec.maxTime && dt > spec.maxTime) {
-          throw new Error('timeout');
+          throw new Error('timeout:' + dt);
         }
         if (endEvent.type === 'touchend') {
           throw new Error('touchend');
@@ -279,10 +294,6 @@
     }
   };
 
-  return {
-    detect: detect
-    // TODO:
-    // add a method to register new kinds of gestures
-    // add properties that describe common gestures
-  };
+  Gesture.detect = detect;
+  return Gesture;
 }));
