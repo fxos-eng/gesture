@@ -256,7 +256,12 @@
           throw new Error('touchend');
         }
         if (endTouches.length !== startTouches.length) {
-          throw new Error('wrong number of touches');
+          // This should not happen, but it does happen for unknown reasons
+          // See bug 1139575. If we throw an error here it aborts the gesture
+          // and makes it hard for the user to swipe on some devices.
+          // So instead we just return false and act like it never happened
+          // throw new Error('wrong number of touches');
+          return false;
         }
 
         var data = {
