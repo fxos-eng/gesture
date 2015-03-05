@@ -129,7 +129,8 @@
     }
 
     function touchmove(e) {
-      debug('touchmove', e.changedTouches[0].clientX, e.changedTouches[0].clientY);
+      debug(e.type, e.touches.length,
+            e.changedTouches[0].clientX, e.changedTouches[0].clientY);
       var gestureData;
       try {
         gestureData = isGestureEnd(startEvent, e);
