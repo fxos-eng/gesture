@@ -123,22 +123,13 @@
       // Otherwise, check if the current touches meet the gesture
       // start condition, and switch to STARTED if so
       if (isGestureStart(e)) {
-        // This event may be the start of a gesture so don't let
-        // gecko do anything else with it.
-        e.preventDefault();
         startEvent = e;
         start();
       }
     }
 
     function touchmove(e) {
-      debug('touchmove', e.touches.length,
-            e.changedTouches[0].clientX, e.changedTouches[0].clientY);
-
-      // We're tracking this event as part of a gesture, so don't let gecko
-      // do anything else with it (like scroll or zoom the viewport)
-      e.preventDefault();
-
+      debug('touchmove', e.changedTouches[0].clientX, e.changedTouches[0].clientY);
       var gestureData;
       try {
         gestureData = isGestureEnd(startEvent, e);
