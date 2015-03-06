@@ -6,7 +6,7 @@
 }(this, 'Gesture', function() {
 
   var Gesture = {
-    DEBUG: true
+    DEBUG: false
   };
 
   function debug(...args) {
